@@ -1,0 +1,5 @@
+# 启用雾凇拼音（rime-ice）：继承上游自带的方案列表（雾凇全拼/双拼/九键等）。
+# 要加自己的微调，在下面继续写 patch（会覆盖上游同名键）。
+patch:
+  __include: rime_ice_suggestion:/
+  "ascii_composer/switch_key/Shift_L": noop

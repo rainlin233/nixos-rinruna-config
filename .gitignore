@@ -1,0 +1,17 @@
+.ssh/
+*.key
+*.pem
+*.secret
+*.token
+*credentials*
+*credential*
+.cache/
+
+# dotfiles-sync: volatile runtime state, excluded from auto-sync
+.config/fish/fish_variables*
+__pycache__/
+*.pyc
+
+# AI sessions / editor history may contain pasted secrets — never publish
+.local/share/opencode/
+.config/micro/buffers/

@@ -1,0 +1,86 @@
+// Nyxuri Custom Configuration
+// 
+// Any modifications in this file will be safely preserved during system updates.
+// You can put your personal configuration habits here, for example:
+// 
+// 任何在此文件中的修改都会在系统更新时被安全保留。
+// 你可以把针对你个人习惯的配置写在这里，例如：
+// 
+spawn-at-startup "fcitx5" "-d"
+// spawn-at-startup "easyeffects" "--gapplication-service"
+// 
+// window-rule {
+//     match app-id="my-custom-app"
+//     open-floating true
+// }
+spawn-at-startup "udiskie"
+spawn-at-startup "xembedsniproxy"
+spawn-at-startup "~/.local/bin/mpris-inhibit.sh"
+spawn-at-startup "~/.local/bin/gamepad-keepawake.sh"
+spawn-at-startup "~/.local/bin/qq-wayland-clipboard.sh"
+
+cursor {
+    xcursor-theme "macOS"
+    xcursor-size 28
+}
+
+binds {
+    Mod+Ctrl+Z  { move-column-left-or-to-monitor-left; }
+    Mod+Ctrl+C  { move-column-right-or-to-monitor-right; }
+    
+    XF86AudioPlay  { spawn "playerctl" "play-pause"; }
+    XF86AudioNext  { spawn "playerctl" "next"; }
+    XF86AudioPrev  { spawn "playerctl" "previous"; }
+    Ctrl+Alt+P     { spawn "playerctl" "play-pause"; }
+    Ctrl+Alt+Right { spawn "playerctl" "next"; }
+    Ctrl+Alt+Left  { spawn "playerctl" "previous"; }
+}
+
+// Open Orpheus 桌面歌词：全透明，不过毛玻璃
+window-rule {
+    match app-id="open-orpheus" title="^Open Orpheus Lyrics$"
+
+    open-floating true
+    opacity 1.0
+    background-effect {
+        blur false
+    }
+    focus-ring {
+        off
+    }
+    border {
+        off
+    }
+}
+
+// Open Orpheus 菜单窗口：独立 toplevel，强制悬浮，去装饰
+// （popup 路径不受影响；overlay 回退靠它不被平铺）
+window-rule {
+    match app-id="open-orpheus" title=r"(?i)Open Orpheus Menu"
+
+    open-floating true
+
+    border {
+        off
+    }
+    focus-ring {
+        off
+    }
+}
+
+window-rule {
+  match title="^Open Orpheus Lyrics$"
+
+  open-floating true
+
+  focus-ring {
+    off
+  }
+
+  border {
+    off
+  }
+}
+
+
+

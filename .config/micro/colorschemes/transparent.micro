@@ -1,0 +1,8 @@
+include "simple"
+
+color-link default ",default"
+color-link line-number ",default"
+color-link current-line-number ",default"
+color-link statusline ",default"
+color-link tabbar ",default"
+
