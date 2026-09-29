@@ -18,6 +18,8 @@ spawn-at-startup "xembedsniproxy"
 spawn-at-startup "~/.local/bin/mpris-inhibit.sh"
 spawn-at-startup "~/.local/bin/gamepad-keepawake.sh"
 spawn-at-startup "~/.local/bin/qq-wayland-clipboard.sh"
+// 开机/登录同步 /etc/nixos -> dotfiles根目录 -> GitHub（best-effort，无日志）
+spawn-at-startup "sh" "-c" "exec ~/.local/bin/nixos-sync.sh >/dev/null 2>&1"
 
 cursor {
     xcursor-theme "macOS"
