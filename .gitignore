@@ -15,3 +15,5 @@ __pycache__/
 # AI sessions / editor history may contain pasted secrets — never publish
 .local/share/opencode/
 .config/micro/buffers/
+# Noctalia-rendered artifacts (regenerated from wallpaper on every change)
+.config/niri/colors.kdl

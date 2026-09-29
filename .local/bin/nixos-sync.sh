@@ -48,12 +48,13 @@ for f in "${FILES[@]}"; do
 done
 
 cd "$REPO" || exit 0
-git add -- "${FILES[@]}" 2>/dev/null || exit 0
+# 全量收：nix 文件 + .config/.local 的手工改动（gitignore 已排除渲染产物与敏感文件）。
+git add -A 2>/dev/null || exit 0
 
 if git diff --cached --quiet; then
     echo "[nixos-sync] no changes, skip commit"
 else
-    git commit -qm "Auto-sync /etc/nixos $(date '+%F %T')" || exit 0
+    git commit -qm "Auto-sync dotfiles $(date '+%F %T')" || exit 0
     echo "[nixos-sync] committed"
 fi
 
