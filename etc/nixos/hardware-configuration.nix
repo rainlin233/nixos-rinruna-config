@@ -13,31 +13,10 @@
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/620ab5cc-0ecc-4b3d-91f9-e168a783791b";
-      fsType = "btrfs";
-      options = [ "subvol=@" ];
-    };
 
-  fileSystems."/home" =
-    { device = "/dev/disk/by-uuid/620ab5cc-0ecc-4b3d-91f9-e168a783791b";
-      fsType = "btrfs";
-      options = [ "subvol=@home" ];
-    };
 
-  fileSystems."/nix" =
-    { device = "/dev/disk/by-uuid/620ab5cc-0ecc-4b3d-91f9-e168a783791b";
-      fsType = "btrfs";
-      options = [ "subvol=@nix" ];
-    };
 
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/3C7C-4FC8";
-      fsType = "vfat";
-      options = [ "fmask=0022" "dmask=0022" ];
-    };
 
-  swapDevices = [ ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
