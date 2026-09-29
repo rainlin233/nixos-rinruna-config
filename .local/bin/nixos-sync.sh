@@ -4,6 +4,10 @@
 # 要求：GitHub 上已有同名仓库；push 走 SSH（~/.ssh/id_ed25519，无密码短语）。
 set -uo pipefail
 
+# 非交互环境：永远别弹密码框，拿不到凭证就快速失败（外层有 timeout 兜底）。
+export GIT_TERMINAL_PROMPT=0
+export GIT_SSH_COMMAND="ssh -o BatchMode=yes -o ConnectTimeout=10"
+
 # niri 重启也会触发 spawn，串行化防并发。
 exec 9> "${XDG_RUNTIME_DIR:-/tmp}/nyxuri-${UID}-nixos-sync.lock"
 flock -w 10 9 || exit 0
