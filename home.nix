@@ -54,6 +54,10 @@ in
       source = dotfilesLink "${dotfiles}/.config/kitty";
     };
 
+    ".config/sunshine/sunshine.conf" = {
+      source = dotfilesLink "${dotfiles}/.config/sunshine/sunshine.conf";
+    };
+
     # =================
     # .local
     # =================
