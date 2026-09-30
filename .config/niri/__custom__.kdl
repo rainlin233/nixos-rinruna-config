@@ -21,7 +21,7 @@ spawn-at-startup "~/.local/bin/qq-wayland-clipboard.sh"
 spawn-at-startup "sh" "-c" "exec ~/.local/bin/nixos-sync.sh >/dev/null 2>&1"
 
 cursor {
-    xcursor-theme "Plana"
+    xcursor-theme "Plana-ANI-28px"
     xcursor-size 30
 }
 
