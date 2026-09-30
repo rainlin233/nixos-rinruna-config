@@ -22,7 +22,7 @@ spawn-at-startup "sh" "-c" "exec ~/.local/bin/nixos-sync.sh >/dev/null 2>&1"
 
 cursor {
     xcursor-theme "Plana"
-    xcursor-size 18
+    xcursor-size 30
 }
 
 binds {
