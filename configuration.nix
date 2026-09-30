@@ -84,13 +84,19 @@
   };
 
   services = {
+    btrfs.autoScrub = { 
+      enable = true;
+      interval = "monthly";
+      fileSystems = [ "/" ];
+    };
+    fstrim.enable = true;
     openssh.enable = true;
     displayManager.noctalia-greeter = {
         enable = true;
         settings = {
           keyboard.numlock = true;
         };
-      };
+    };
     flatpak.enable = true;
     udisks2.enable = true;
     gvfs.enable = true;
@@ -299,7 +305,10 @@
       #Net
       firefox
       opencode
+
+      #Tool
       warehouse
+      blender
 
       #Game
       protonplus
