@@ -262,6 +262,7 @@
       ffmpeg
       mpvpaper
       wlsunset
+      haruna
 
       # Nyxuri: XWayland / 截图 / 剪贴板 / 亮度 / 录屏
       xwayland-satellite
@@ -309,6 +310,7 @@
       #Tool
       warehouse
       blender
+      anydesk
 
       #Game
       protonplus
