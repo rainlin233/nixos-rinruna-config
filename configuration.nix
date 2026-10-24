@@ -311,6 +311,7 @@
       warehouse
       blender
       anydesk
+      obs-studio
 
       #Game
       protonplus
