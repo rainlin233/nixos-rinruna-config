@@ -310,7 +310,6 @@
       #Tool
       warehouse
       blender
-      anydesk
       obs-studio
 
       #Game
