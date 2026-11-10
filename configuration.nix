@@ -473,10 +473,6 @@
 
     # Session Variables
     sessionVariables = {
-      # Nyxuri 的壁纸选择器/Orbit 都是裸 python3 + gi，直接跑必须有它。
-      # 实测过的完整组合：系统聚合目录 + pango + glib + at-spi2-core(Atk) + harfbuzz，
-      # 缺任何一个都会报 Typelib not found。
-      # 注意：必须显式 .out！直接 ${pkgs.pango} 会取到 -bin 输出（里面没有 typelib），
       GI_TYPELIB_PATH = "/run/current-system/sw/lib/girepository-1.0:${pkgs.pango.out}/lib/girepository-1.0:${pkgs.glib.out}/lib/girepository-1.0:${pkgs.at-spi2-core.out}/lib/girepository-1.0:${pkgs.harfbuzz.out}/lib/girepository-1.0";
 
       GSETTINGS_SCHEMA_DIR = "${pkgs.gtk3}/share/gsettings-schemas/gtk+3-${pkgs.gtk3.version}/glib-2.0/schemas";
