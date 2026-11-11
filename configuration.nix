@@ -55,6 +55,14 @@
             unwrapped = fixedUnwrapped;
           };
         });
+
+      # 修复 Warehouse 启动时找不到 pygobject
+      # （ModuleNotFoundError: No module named 'gi'）
+      warehouse = prev.warehouse.overrideAttrs (old: {
+        preFixup = (old.preFixup or "") + ''
+          gappsWrapperArgs+=(--prefix PYTHONPATH : "${final.python3.withPackages (ps: [ ps.pygobject3 ])}/${final.python3.sitePackages}")
+        '';
+      });
     })
   ];
   };
