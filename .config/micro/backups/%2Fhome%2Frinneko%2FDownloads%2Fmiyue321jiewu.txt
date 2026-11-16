@@ -1,0 +1,104 @@
+
+借物表 ：
+[模型Model]:白银之城/神帝羽
+https://www.aplaybox.com/details/model/qGIIkvdQWN9s
+[舞台Stage]:Aiko（タマと月
+https://ai3d.booth.pm/items/3802276
+[music]:蜜月アン・ドゥ・トロワ(dateken) - CoverBy kurokumo
+https://www.nicovideo.jp/watch/sm32234324
+[动作Motion]:つん
+https://bowlroll.net/file/117743
+[镜头Camera]:天音Yuki
+https://bowlroll.net/file/126860
+
+[工具Tool]:
+制作:Blender(Cycles)-MMD Tools
+插帧:rife-ncnn-vulkan
+压制:FFmpeg
+
+借物表 ：
+[模型Model]:原神
+https://www.aplaybox.com/details/model/35G6QZBNGV9o
+[舞台Stage]:Aiko（タマと月
+https://ai3d.booth.pm/items/3802276
+[音乐music]:Melanie Martinez - Dollhouse
+[动作Motion]:MLP M101
+https://www.youtube.com/watch?v=H7Vy8cqUEVI
+[镜头Camera]:MLP M101
+https://www.youtube.com/watch?v=H7Vy8cqUEVI
+
+[工具Tool]:
+制作:Blender(EEVEE)-MMD Tools
+插帧:rife-ncnn-vulkan
+压制:FFmpeg
+
+
+借物表 ：
+[模型Model]:白银之城/神帝羽
+https://www.aplaybox.com/details/model/qGIIkvdQWN9s
+[舞台Stage]:海新_/one_time
+https://www.aplaybox.com/details/model/4XffM5ziORij
+[音乐music]:MKTO - Classic
+[动作Motion]:支店チョ。/ズッキーニ
+https://bowlroll.net/file/111792
+https://bowlroll.net/file/112518
+[镜头Camera]:永远赤红的幼月
+https://bowlroll.net/file/114484
+
+
+[工具Tool]:
+制作:Blender(EEVEE)-MMD Tools-Paper Anime Render Helper
+压制:FFmpeg
+
+
+借物表 ：
+[模型Model]:白银之城/神帝羽
+https://www.aplaybox.com/details/model/qGIIkvdQWN9s
+[舞台Stage]:海新_/one_time
+https://www.aplaybox.com/details/model/4XffM5ziORij
+[音乐Music]:DECO*27 - モニタリング (Best Friend Remix) feat. 初音ミク
+https://www.nicovideo.jp/watch/sm45353732
+[动作Motion]:MobiusP/チャイナ
+https://www.nicovideo.jp/watch/sm45768928
+[镜头Camera]:MobiusP/鷹羽はるひ
+https://www.nicovideo.jp/watch/sm45768928
+
+
+
+[工具Tool]:
+制作:Blender(EEVEE)
+             -MMD Tools
+             -Paper Anime Render Helper
+             -MMD Motion Tools
+压制:FFmpeg
+
+[红蔷薇MMD] 和我一同踏上征程吧 -  Conqueror
+
+
+花了很久时间修穿模，这次重新做了渲染，希望能得到点赞XoX
+借物表 ：
+[模型Model]:白银之城/神帝宇
+https://www.aplaybox.com/details/model/hzJW7QnXqWaB
+[舞台Stage]:sega/minmode/Skyth/Rich Whitehouse/Chrrox/khoast40 (MES40)/Dan1024/YukikazeMaoMao
+[音乐Music]:IA - Conqueror
+https://www.nicovideo.jp/watch/sm45353732
+[动作Motion]:
+  Choreography : YURI (RSC MASAMI STUDIO)
+  Motion Capture Studio : D1
+  MMD Motion : Suzuki Rin
+  Copyright : 1st PLACE Co., Ltd.
+https://www.youtube.com/watch?v=pdenALKNA8w
+[表情Facial]:Lise
+https://bowlroll.net/file/358246
+[镜头Camera]:Torii Is Weird
+https://bowlroll.net/file/191355
+
+[工具Tool]:
+物理:MikuMikuDance-Ver.mmdbridge
+制作:Blender(EEVEE)
+             -MMD Tools
+             -MMD Motion Tools(动作穿模修正)
+             -MMD Jiggle bones
+             -MikuMikuToon(眼部透视)
+插帧:SVFI
+压制:FFmpeg
