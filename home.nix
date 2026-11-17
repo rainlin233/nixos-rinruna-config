@@ -38,6 +38,10 @@ in
       source = dotfilesLink "${dotfiles}/.config/niri";
     };
 
+    ".config/umbriel" = {
+      source = dotfilesLink "${dotfiles}/.config/umbriel";
+    };
+
     ".config/noctalia" = {
       source = dotfilesLink "${dotfiles}/.config/noctalia";
     };

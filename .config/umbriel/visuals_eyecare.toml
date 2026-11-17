@@ -1,0 +1,13 @@
+# 护眼模式（迁移自 niri effects_eyecare.kdl）
+# 关闭透明度与毛玻璃，减轻夜间视觉负担。
+
+[appearance.blur]
+enabled = false
+
+[[window_rule]]
+blur = false
+opacity = 1.0
+
+[[window_rule]]
+match.is_focused = false
+opacity = 1.0

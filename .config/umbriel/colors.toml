@@ -1,0 +1,19 @@
+# Umbriel Material You 动态描边/阴影（由 Noctalia 按壁纸色板渲染）
+# 输出到 ~/.config/umbriel/colors.toml，由 config.toml 的 [include] 引入。
+
+[colors]
+shadow = "#923c1c95"
+insert_hint = "#923c1c80"
+
+[colors.border]
+focused = "#923c1cFF"
+unfocused = "#00000000"
+outer = "#00000000"
+
+[colors.tab_bar]
+active = "#923c1cFF"
+urgent = "#ba1a1aFF"
+
+[colors.overview]
+background_tint = "#4c566a90"
+badge = "#923c1cFF"

@@ -253,6 +253,13 @@ index = 6
 input_path = "/home/rinneko/.config/noctalia/templates/palette.toml"
 output_path = "/home/rinneko/.cache/nyxuri/palette.toml"
 
+# Umbriel glow-material-you：Noctalia 渲染 umbriel 的 colors.toml，热重载合成器
+[theme.templates.user.nyxuri_umbriel_colors_material_you]
+index = 7
+input_path = "/home/rinneko/.config/noctalia/templates/umbriel-colors-material-you.toml"
+output_path = "/home/rinneko/.config/umbriel/colors.toml"
+post_hook = "command -v umbriel >/dev/null 2>&1 && umbriel msg config-reload >/dev/null 2>&1 || true"
+
 [wallpaper]
 directory = "/home/rinneko/Pictures/Wallpapers"
 fill_mode = "crop"

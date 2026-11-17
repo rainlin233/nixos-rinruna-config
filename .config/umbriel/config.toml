@@ -1,0 +1,554 @@
+# =============================================================================
+# Umbriel 配置 —— 从 ~/.config/niri 迁移（niri 26.04 → umbriel 0.1.0）
+#
+# 结构说明：
+#   visuals.toml  —— 普通/护眼模式的透明度与模糊（护眼脚本切换软链接）
+#   colors.toml   —— Noctalia 动态色板渲染，勿手改（会随壁纸主题重写）
+#
+# 校验：umbriel config validate -c ~/.config/umbriel/config.toml
+# =============================================================================
+
+[include]
+files = [
+  "visuals.toml",
+  "colors.toml",
+]
+
+# =============================================================================
+# 常规 / 自启 / 会话环境
+# =============================================================================
+
+[general]
+# niri 的 spawn-at-startup 全量迁移（每条通过 /bin/sh -c 执行）
+autostart = [
+  "~/.config/umbriel/scripts/session-shell.sh",
+  "command -v fcitx5 >/dev/null 2>&1 && exec fcitx5 -d",
+  "~/.config/umbriel/scripts/toggle-eyecare.sh --sync",
+  "udiskie",
+  "xembedsniproxy",
+  "~/.local/bin/mpris-inhibit.sh",
+  "~/.local/bin/gamepad-keepawake.sh",
+  "~/.local/bin/qq-wayland-clipboard.sh",
+  "exec ~/.local/bin/nixos-sync.sh >/dev/null 2>&1",
+  "sleep 8; noctalia msg config-reload && noctalia msg templates-apply",
+]
+
+show_cheatsheet = false
+mod_key = "Super"
+
+# niri environment 块迁移（XDG_* 由合成器自己管理，不需要写）
+[environment]
+GTK_IM_MODULE = ""
+QT_QPA_PLATFORM = "wayland;xcb"
+QT_QPA_PLATFORMTHEME = "gtk3"
+QT_WAYLAND_DISABLE_WINDOWDECORATION = "1"
+
+# =============================================================================
+# 外观
+# =============================================================================
+
+[appearance]
+prefer_no_csd = true
+border_width = 2
+outer_border_width = 0
+corner_radius = 12
+drag_opacity = 0.75
+opaque_fullscreen = true
+
+[appearance.shadow]
+enabled = true
+softness = 28
+offset_x = 0
+offset_y = 0
+
+# niri: blur { passes 3; offset 2.3; noise 0.001; saturation 2 }
+# xray=false（模糊真实背景而不是壁纸缓存）→ optimized = false
+# 注意：enabled 不在此处写死，由 visuals.toml 的护眼模式覆盖
+[appearance.blur]
+optimized = false
+passes = 3
+radius = 5
+noise = 0.001
+saturation = 2.0
+
+# niri overview { backdrop-color "#4c566a90"; workspace-shadow off }
+[colors.overview]
+background_tint = "#4c566a90"
+
+# =============================================================================
+# 布局（niri scrolling 布局等价物）
+# =============================================================================
+
+[layout]
+mode = "scrolling"
+gap = 12
+extent_presets = [0.33333, 0.5, 0.66667]
+client_maximize = "column"
+
+[layout.scrolling]
+default_extent_fraction = 0.5
+center_focused = "never"
+# niri 的 always-center-single-column
+center_underfull_strip = true
+
+[layout.tabs]
+new_tab_position = "after_active"
+middle_click_closes = true
+
+# =============================================================================
+# 输入
+# =============================================================================
+
+[input.keyboard]
+numlock_toggle = true
+
+[input.touchpad]
+tap = true
+natural_scroll = true
+# niri: dwt
+disable_while_typing = true
+# niri: DWT 之外最常见的“外接鼠标时禁用触摸板”
+disable_on_external_mouse = true
+
+[input.mouse]
+# niri: accel-speed -0.72
+sensitivity = -0.72
+
+[input.cursor]
+# __custom__.kdl 覆盖 config.kdl 的最终值
+theme = "Plana-ANI-28px"
+size = 30
+
+# =============================================================================
+# 显示器（来自 nwg-displays 生成的 monitor.kdl）
+# =============================================================================
+
+[output.DP-2]
+mode = "1920x1080@60"
+position = [0, 0]
+scale = 1.0
+workspaces = "dynamic"
+# niri 窗口规则里的按需 VRR：仅在存在全屏窗口时启用
+vrr = "fullscreen"
+
+# =============================================================================
+# 动画（niri spring → umbriel spring:<damping>,<stiffness>）
+# =============================================================================
+
+[animation]
+enabled = true
+duration_ms = 250
+curve = "easeout"
+
+[animation.workspaces]
+curve = "spring:0.8,523"
+
+# window-open: 150ms ease-out-expo
+[animation.windows_in]
+duration_ms = 150
+curve = "0.16,1,0.3,1"
+
+# window-close: 150ms ease-out-quad
+[animation.windows_out]
+duration_ms = 150
+curve = "0.25,0.46,0.45,0.94"
+
+[animation.windows_move]
+curve = "spring:0.75,323"
+
+[animation.windows_resize]
+curve = "spring:0.85,423"
+
+[animation.overview]
+curve = "spring:0.85,800"
+
+# =============================================================================
+# 快捷键（定义 [keybinds] 会整体替换内置绑定，故全部列出）
+# =============================================================================
+
+[keybinds]
+
+# --- 会话与系统 ---
+"Mod+Tab"            = { action = "overview-toggle", repeat = false }
+"Mod+Q"              = { action = "window-close", repeat = false }
+"Mod+Shift+Q"        = { action = "session-quit", repeat = false }
+"Mod+Shift+R"        = { action = "config-reload", repeat = false }
+"Mod+L"              = { action = "spawn ~/.config/umbriel/scripts/shell-action.sh lock", repeat = false }
+"Mod+Slash"          = { action = "cheatsheet-toggle", repeat = false }
+"Mod+Shift+Escape"   = { action = "shortcuts-inhibit-toggle", allow_when_inhibited = true, repeat = false }
+
+# niri 的 recent-windows 绑定（窗口级切换）
+"Alt+Tab"            = { action = "window-focus-next", repeat = false }
+"Alt+Shift+Tab"      = { action = "window-focus-previous", repeat = false }
+
+# --- 应用 / 桌面外壳 ---
+"Mod+Return"         = { action = "spawn kitty", repeat = false }
+"Mod+E"              = { action = "spawn nautilus", repeat = false }
+"Mod+R"              = { action = "spawn ~/.config/umbriel/scripts/shell-action.sh launcher", repeat = false }
+"Mod+X"              = { action = "spawn ~/.config/umbriel/scripts/shell-action.sh session", repeat = false }
+"Mod+I"              = { action = "spawn ~/.config/umbriel/scripts/shell-action.sh settings", repeat = false }
+"Mod+V"              = { action = "spawn ~/.config/umbriel/scripts/shell-action.sh clipboard", repeat = false }
+"Mod+W"              = { action = "spawn ~/.config/umbriel/scripts/shell-action.sh wallpaper-picker", repeat = false }
+"Mod+Ctrl+W"         = { action = "spawn ~/.config/umbriel/scripts/shell-action.sh wallpaper-random", repeat = false }
+"Mod+N"              = { action = "spawn ~/.config/umbriel/scripts/toggle-eyecare.sh", repeat = false }
+"Mod+Grave"          = { action = "scratchpad-toggle terminal", repeat = false }
+"Mod+A"              = { action = "spawn ~/.config/umbriel/scripts/shell-action.sh radial-launcher", repeat = false }
+"Mod+MouseForward"   = { action = "spawn ~/.config/umbriel/scripts/shell-action.sh radial-launcher", repeat = false }
+
+# --- 焦点导航（边缘穿透到相邻显示器 / 工作区）---
+"Mod+Left"           = "window-focus-or-output-left"
+"Mod+Right"          = "window-focus-or-output-right"
+"Mod+Down"           = "window-focus-or-workspace-down"
+"Mod+Up"             = "window-focus-or-workspace-up"
+"Mod+Z"              = "window-focus-left"
+"Mod+C"              = "window-focus-right"
+
+# --- 窗口 / 列搬运 ---
+"Mod+Ctrl+Left"      = "window-move-or-output-left"
+"Mod+Ctrl+Right"     = "window-move-or-output-right"
+"Mod+Ctrl+Down"      = "window-move-or-workspace-down"
+"Mod+Ctrl+Up"        = "window-move-or-workspace-up"
+"Mod+Shift+Left"     = "column-move-left"
+"Mod+Shift+Right"    = "column-move-right"
+"Mod+Shift+Down"     = "window-move-down"
+"Mod+Shift+Up"       = "window-move-up"
+"Mod+Ctrl+Z"         = "window-move-or-output-left"
+"Mod+Ctrl+C"         = "window-move-or-output-right"
+
+# --- 工作区方向导航 ---
+"Mod+D"              = "workspace-next"
+"Mod+U"              = "workspace-previous"
+
+# --- 显示器间精确搬运 ---
+"Mod+Shift+Ctrl+Left"  = "column-move-to-output-left"
+"Mod+Shift+Ctrl+Right" = "column-move-to-output-right"
+"Mod+Shift+Ctrl+Down"  = "column-move-to-output-down"
+"Mod+Shift+Ctrl+Up"    = "column-move-to-output-up"
+
+# --- 布局与尺寸 ---
+"Mod+T"              = { action = "window-toggle-floating", repeat = false }
+"Mod+Shift+T"        = { action = "window-focus-switch-floating", repeat = false }
+"Mod+G"              = { action = "column-toggle-tabbed", repeat = false }
+"Mod+F"              = { action = "window-toggle-maximize", repeat = false }
+"Mod+Shift+F"        = { action = "window-toggle-fullscreen", repeat = false }
+"Mod+Space"          = "window-cycle-primary-extent"
+"Mod+Minus"          = "window-modify-primary-extent -0.05"
+"Mod+Equal"          = "window-modify-primary-extent +0.05"
+"Mod+Shift+Equal"    = "window-set-secondary-extent 1.0"
+"Mod+Comma"          = "window-consume-left"
+"Mod+Period"         = "window-move-right"
+
+# --- 工作区 1-9 ---
+"Mod+1" = "workspace-switch 1"
+"Mod+2" = "workspace-switch 2"
+"Mod+3" = "workspace-switch 3"
+"Mod+4" = "workspace-switch 4"
+"Mod+5" = "workspace-switch 5"
+"Mod+6" = "workspace-switch 6"
+"Mod+7" = "workspace-switch 7"
+"Mod+8" = "workspace-switch 8"
+"Mod+9" = "workspace-switch 9"
+
+# niri move-column-to-workspace → 整列搬运
+"Mod+Shift+1" = "column-move-to-workspace 1"
+"Mod+Shift+2" = "column-move-to-workspace 2"
+"Mod+Shift+3" = "column-move-to-workspace 3"
+"Mod+Shift+4" = "column-move-to-workspace 4"
+"Mod+Shift+5" = "column-move-to-workspace 5"
+"Mod+Shift+6" = "column-move-to-workspace 6"
+"Mod+Shift+7" = "column-move-to-workspace 7"
+"Mod+Shift+8" = "column-move-to-workspace 8"
+"Mod+Shift+9" = "column-move-to-workspace 9"
+
+# --- 滚轮 ---
+"Mod+WheelDown"          = { action = "workspace-next", cooldown_ms = 150 }
+"Mod+WheelUp"            = { action = "workspace-previous", cooldown_ms = 150 }
+"Mod+Ctrl+WheelDown"     = { action = "column-move-to-workspace-next", cooldown_ms = 150 }
+"Mod+Ctrl+WheelUp"       = { action = "column-move-to-workspace-previous", cooldown_ms = 150 }
+"Mod+WheelRight"         = "window-focus-right"
+"Mod+WheelLeft"          = "window-focus-left"
+"Mod+Shift+WheelDown"    = "window-focus-right"
+"Mod+Shift+WheelUp"      = "window-focus-left"
+"Mod+Ctrl+WheelRight"    = "column-move-right"
+"Mod+Ctrl+WheelLeft"     = "column-move-left"
+"Mod+Ctrl+Shift+WheelDown" = "column-move-right"
+"Mod+Ctrl+Shift+WheelUp"   = "column-move-left"
+
+# --- 多媒体 / 硬件 ---
+"XF86AudioRaiseVolume" = { action = "spawn wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+", allow_when_locked = true }
+"XF86AudioLowerVolume" = { action = "spawn wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-", allow_when_locked = true }
+"XF86AudioMute"        = { action = "spawn wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle", allow_when_locked = true, repeat = false }
+"XF86AudioPlay"        = { action = "spawn playerctl play-pause", allow_when_locked = true, repeat = false }
+"XF86AudioNext"        = { action = "spawn playerctl next", allow_when_locked = true }
+"XF86AudioPrev"        = { action = "spawn playerctl previous", allow_when_locked = true }
+"Ctrl+Alt+P"           = { action = "spawn playerctl play-pause", repeat = false }
+"Ctrl+Alt+Right"       = "spawn playerctl next"
+"Ctrl+Alt+Left"        = "spawn playerctl previous"
+
+# 内屏走 Noctalia 背光 + 外接屏 ddcutil（脚本已迁移）
+"XF86MonBrightnessUp"   = { action = "spawn ~/.config/umbriel/scripts/brightness.sh up", allow_when_locked = true }
+"XF86MonBrightnessDown" = { action = "spawn ~/.config/umbriel/scripts/brightness.sh down", allow_when_locked = true }
+
+# --- 截图（niri 内建截图 → Noctalia 截图，走 umbriel portal）---
+"Mod+Shift+S"  = { action = "spawn noctalia msg screenshot-region", repeat = false }
+"Print"        = { action = "spawn noctalia msg screenshot-region", repeat = false }
+"Ctrl+Print"   = { action = "spawn noctalia msg screenshot-fullscreen", repeat = false }
+"Alt+Print"    = { action = "spawn noctalia msg screenshot-window", repeat = false }
+
+# =============================================================================
+# 窗口规则
+# 规则按顺序叠加，后面的同名字段覆盖前面的。
+# niri 的 exclude 不存在，改用“后置恢复规则”达到同样效果。
+# =============================================================================
+
+# Noctalia 面板本体：悬浮
+[[window_rule]]
+match.app_id = "^dev[.]noctalia[.]Noctalia$"
+default_floating = true
+default_floating_size_px = { width = 1020, height = 900 }
+
+# 强制定宽 50% 且不浮动
+[[window_rule]]
+match.app_id = [
+  "^gnome-control-center$",
+  "^pavucontrol$",
+  "^nm-connection-editor$",
+]
+default_floating = false
+default_scrolling_extent = 0.5
+
+# 常规工具窗口：悬浮
+[[window_rule]]
+match.app_id = [
+  "^org[.]gnome[.]Calculator$",
+  "^gnome-calculator$",
+  "^galculator$",
+  "^blueman-manager$",
+  "^org[.]gnome[.]Nautilus$",
+  "^xdg-desktop-portal-(gnome|gtk)$",
+  "^zoom$",
+]
+default_floating = true
+
+# niri: default-column-width { proportion 1.0 }
+[[window_rule]]
+match.app_id = "^wine$"
+default_floating = true
+default_scrolling_extent = 1.0
+
+# Steam 通知 toast：右下角，不抢焦点
+[[window_rule]]
+match.app_id = "^steam$"
+match.title = '^notificationtoasts_[0-9]+_desktop$'
+default_floating = true
+default_focused = false
+default_position = { x = 10, y = 10, anchor = "bottom_right" }
+
+# Wine / Proton 托盘占位窗口（避免屏幕中央小黑条）
+[[window_rule]]
+match.app_id = ['^explorer[.]exe$', '^(wineboot|services)[.]exe$']
+default_floating = true
+default_focused = false
+opacity = 0.0
+default_position = { x = -9999, y = -9999, anchor = "top_left" }
+shadow = false
+
+[[window_rule]]
+match.title = ['^Wine System Tray$', '^Wine$']
+default_floating = true
+default_focused = false
+opacity = 0.0
+default_position = { x = -9999, y = -9999, anchor = "top_left" }
+shadow = false
+
+# 特定应用美化（glassy-niri 迁移）
+[[window_rule]]
+match.app_id = "^org[.]pwmt[.]zathura$"
+opacity = 0.8
+blur = true
+
+[[window_rule]]
+match.app_id = "^codium$"
+opacity = 0.85
+blur = true
+
+[[window_rule]]
+match.app_id = "^steam$"
+opacity = 0.9
+blur = true
+
+[[window_rule]]
+match.app_id = "^obsidian$"
+opacity = 0.9
+blur = true
+
+[[window_rule]]
+match.app_id = "^app[.]zen_browser[.]zen$"
+blur = true
+
+# =============================================================================
+# 游戏 / 模拟器超级规则组（VRR + 直通扫描优化）
+# =============================================================================
+
+[[window_rule]]
+match.app_id = [
+  '^steam_app_.*',
+  '^(gamescope|com[.]valvesoftware[.]Steam[.]Utility[.]gamescope)$',
+  '^org[.](duckstation[.]DuckStation|ppsspp[.]PPSSPP|libretro[.]RetroArch|DolphinEmu[.]dolphin-emu|citra_emu[.]citra|azahar_emu[.]Azahar|desmume[.]DeSmuME|wesnoth[.]Wesnoth)$',
+  '^net[.](pcsx2[.]PCSX2|rpcs3[.]RPCS3|shadps4[.]shadPS4|kuribo64[.]melonDS|veloren[.]veloren)$',
+  '^io[.](mgba[.]mGBA|openrct2[.]OpenRCT2|anuke[.]Mindustry)$',
+  '^io[.]github[.](simple64[.]simple64|lime3ds[.]Lime3DS|ryubing[.]Ryujinx|streetpea[.]Chiaki4deck)$',
+  '^(info[.]cemu[.]Cemu|app[.]xemu[.]xemu|com[.]fightcade[.]Fightcade2|com[.]mamedev[.]MAME|com[.]wildfiregames[.]0ad|dev[.]goats[.]xivlauncher|com[.]github[.]Anuken[.]Mindustry|org[.]openmw[.]OpenMW|org[.]openttd[.]OpenTTD|org[.]cataclysmdda[.]CataclysmDDA)$',
+  '^(duckstation-(qt|nogui)|pcsx2(-qt)?|rpcs3|shadps4|PPSSPP(Qt|SDL)|Vita3K|Ryujinx|suyu|sudachi|torzu|yuzu|cemu|dolphin-emu|lime3ds|citra(-qt)?|melonDS|mgba(-qt)?|simple64-gui|RMG|xemu|retroarch|mame|ggpofba|fbneo|snes9x)$',
+  '^((genshinimpact|yuanshen|starrail|zenlesszonezero|client-win64-shipping|wuthering waves|endfield|ffxiv_dx11|ffxiv|wow|wowclassic|league of legends|pathofexile|pathofexile_x64|pathofexile2|warframe[.]x64|r5apex|overwatch|marvelrivals|deadlock|project8)[.]exe)$',
+  '^(cs2|dota2)$',
+  '^wine$',
+  '^(net-minecraft-client-main-Main|Minecraft.*|factorio|RimWorldLinux|Terraria[.]bin[.]x86_64|StardewValley[.]bin[.]x86_64|Hollow_Knight[.]x86_64|deadcells|Celeste|victoria3|hoi4|ck3|stellaris|eu4|openmw|openra-(ra|cnc|d2k)|openrct2|openttd|spring|Beyond-All-Reason|mindustry|pyrogenesis|veloren-voxygen|cataclysm-tiles|wesnoth)$',
+  '^((RimWorldWin64|Balatro|noita|noita_dev|Hades|Hades2|xenia|xenia_canary|Cemu)[.]exe)$',
+  '^(com[.]moonlight_stream[.]Moonlight|moonlight|chiaki|chiaki-ng|com[.]parsecgaming[.]parsec|parsecd)$',
+]
+match.title = [
+  '^Minecraft [0-9]+[.][0-9]+([.][0-9]+)?.*$',
+  '^Steam Big Picture Mode$',
+  'genshin impact|zenless zone zero|honkai: star rail|wuthering waves|minecraft|victoria 3|endfield',
+]
+vrr = "always"
+opacity = 1.0
+blur = false
+corner_radius = 0
+shadow = false
+border_width = 0
+
+# --- 上面超级规则的排除项：用后置规则恢复默认外观 ---
+
+# 1. 浏览器（保留按需 VRR，恢复普通半透明/圆角/模糊）
+[[window_rule]]
+match.app_id = [
+  '^(firefox.*|org[.]mozilla[.]firefox)$',
+  '^(google-chrome.*|chrome|chromium.*|com[.]google[.]Chrome|org[.]chromium[.]Chromium)$',
+  '^(brave.*|com[.]brave[.]Browser|microsoft-edge.*|edge|com[.]microsoft[.]Edge)$',
+  '^(zen.*|app[.]zen_browser[.]zen)$',
+  '^(vivaldi.*|opera.*|thorium.*|floorp.*|waterfox.*|librewolf.*)$',
+  '^(org[.]gnome[.]Epiphany.*|epiphany|falkon.*|nyxt.*|qutebrowser.*|ladybird.*|midori.*|tor-browser.*)$',
+]
+vrr = "always"
+opacity = 0.9
+blur = true
+corner_radius = 12
+shadow = true
+border_width = 2
+
+# 2. Wine/Proton 日常与办公工具
+[[window_rule]]
+match.app_id = '^(WeChat|QQ|wps|wpscloudsvr|notepad|winword|excel|powerpnt|dingtalk|AliWangWang|Foxmail|Feishu)[.]exe$'
+opacity = 0.9
+blur = true
+corner_radius = 12
+shadow = true
+border_width = 2
+
+# 3. 游戏启动器 / 更新器壳体
+[[window_rule]]
+match.app_id = [
+  '^(heroic|lutris|com[.]usebottles[.]bottles|org[.]prismlauncher[.]PrismLauncher|com[.]lunarclient[.]LunarClient)$',
+  '^(openmw-launcher|dowser[.]exe|Battle[.]net[.]exe|LeagueClientUx[.]exe)$',
+]
+opacity = 0.9
+blur = true
+corner_radius = 12
+shadow = true
+border_width = 2
+
+# 画中画：所有工作区悬浮在右下角
+[[window_rule]]
+match.title = '(画中画|Picture-in-Picture)'
+default_floating = true
+opacity = 1.0
+default_position = { x = 20, y = 20, anchor = "bottom_right" }
+
+# 视频软件不透明
+[[window_rule]]
+match.app_id = [
+  "^org[.]kde[.]kdenlive$",
+  "^mpv$",
+  "^kazumi$",
+  "^celluloid$",
+  "^virt-manager$",
+]
+opacity = 1.0
+
+# 图片 / 视频查看器
+[[window_rule]]
+match.title = '(图片查看器|Image Viewer|图片和视频|Image and Video Viewer|视频播放器|Video Player|Videos)'
+default_floating = true
+opacity = 1.0
+
+[[window_rule]]
+match.app_id = [
+  "^org[.]gnome[.]Loupe$",
+  "^org[.]gnome[.]Totem$",
+  "^org[.]gnome[.]Photos$",
+  "^imv$",
+]
+default_floating = true
+opacity = 1.0
+
+# Steam 好友列表
+[[window_rule]]
+match.app_id = "^steam$"
+match.title = '^(Friends List|好友列表)$'
+default_scrolling_extent = 0.20
+
+# QQ：资料卡/天气不抢焦点；聊天记录以浮动打开
+[[window_rule]]
+match.app_id = "^QQ$"
+match.title = '^(资料卡|天气)$'
+default_focused = false
+
+[[window_rule]]
+match.app_id = "^QQ$"
+match.title = '^群聊的聊天记录$'
+default_floating = true
+
+# Ente Auth
+[[window_rule]]
+match.app_id = "^io[.]ente[.]auth$"
+default_floating = true
+default_floating_size_px = { width = 532, height = 925 }
+
+# Mission Center
+[[window_rule]]
+match.app_id = "^io[.]missioncenter[.]MissionCenter$"
+default_floating = true
+default_floating_size = { width = 0.65, height = 0.70 }
+
+# =============================================================================
+# Scratchpad 终端（原 niri-scratch-toggle.sh 的 kitty 分支）
+# =============================================================================
+
+[[scratchpad]]
+name = "terminal"
+spawn_when_empty = 'kitty --app-id scratchpad --title "Scratchpad" tmux new-session -A -D -s scratch "fish -C \"function fish_greeting; end\" -C \"set -g fish_history scratchpad\"" \; set-option status off \; set-option mouse on \; set-option history-limit 50000'
+
+[[window_rule]]
+match.app_id = "^scratchpad$"
+default_scratchpad = "terminal"
+default_floating_size = { width = 0.5, height = 0.45 }
+default_position = { x = 0, y = 40, anchor = "top" }
+
+# =============================================================================
+# Layer 规则（Noctalia）
+# =============================================================================
+
+# 面板 / 坞 / 通知 / OSD：模糊实时内容
+[[layer_rule]]
+match.namespace = "^noctalia-(panel|attached-panel|notification|dock|osd)$"
+blur = true
+blur_optimized = false
+blur_popups = true
+
+# 状态栏贴壁纸，不做模糊（niri 里也是 blur false + 不透明）
+[[layer_rule]]
+match.namespace = "^noctalia-bar-bar$"
+blur = false
+blur_optimized = true
