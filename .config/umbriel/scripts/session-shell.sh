@@ -6,8 +6,6 @@
 
 set -euo pipefail
 
-# 兼容 niri 与 umbriel 两种会话遗留的 scope
-systemctl --user stop 'app-niri-noctalia-*.scope' >/dev/null 2>&1 || true
 systemctl --user stop 'app-umbriel-noctalia-*.scope' >/dev/null 2>&1 || true
 
 state_root="${XDG_STATE_HOME:-$HOME/.local/state}"

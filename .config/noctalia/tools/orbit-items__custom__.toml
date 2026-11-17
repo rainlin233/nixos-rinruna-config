@@ -88,7 +88,7 @@ color_key = "secondary"
   name = "Eye Care"
   desc = "Toggle Warmth"
   icon = "󰛨"
-  cmd = "~/.config/niri/scripts/toggle-eyecare.sh"
+  cmd = "~/.config/umbriel/scripts/toggle-eyecare.sh"
   shortcut = "2"
   color_key = "secondary"
 

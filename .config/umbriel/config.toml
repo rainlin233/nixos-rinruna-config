@@ -36,6 +36,10 @@ autostart = [
 show_cheatsheet = false
 mod_key = "Super"
 
+# niri 没有“模态对话框附着到父窗口”的概念：默认 true 时，
+# 拖动子对话框会连带拖动母窗口、并跟随母窗口跨工作区。关闭以还原 niri 行为。
+attach_modal_dialogs = false
+
 # niri environment 块迁移（XDG_* 由合成器自己管理，不需要写）
 [environment]
 GTK_IM_MODULE = ""
@@ -161,6 +165,12 @@ curve = "spring:0.85,423"
 
 [animation.overview]
 curve = "spring:0.85,800"
+
+# niri 没有 scratchpad 背板；umbriel 默认 dim 0.8 会把整屏压黑，
+# 关闭后空 scratchpad / 大窗口都不会再有“独占屏幕”的观感。
+[animation.scratchpad]
+dim = 0.0
+blur = false
 
 # =============================================================================
 # 快捷键（定义 [keybinds] 会整体替换内置绑定，故全部列出）
@@ -523,6 +533,32 @@ default_floating = true
 default_floating_size = { width = 0.65, height = 0.70 }
 
 # =============================================================================
+# Open Orpheus（迁移自 niri __custom__.kdl）
+# =============================================================================
+
+# 桌面歌词：全透明，不过毛玻璃，无边框
+[[window_rule]]
+match.app_id = "^open-orpheus$"
+match.title = '^Open Orpheus Lyrics$'
+default_floating = true
+opacity = 1.0
+blur = false
+border_width = 0
+
+# 菜单窗口：独立 toplevel，强制悬浮，去装饰
+[[window_rule]]
+match.app_id = "^open-orpheus$"
+match.title = 'Open Orpheus Menu'
+default_floating = true
+border_width = 0
+
+# 只按标题兜底（popup 路径不受影响）
+[[window_rule]]
+match.title = '^Open Orpheus Lyrics$'
+default_floating = true
+border_width = 0
+
+# =============================================================================
 # Scratchpad 终端（原 niri-scratch-toggle.sh 的 kitty 分支）
 # =============================================================================
 
@@ -536,16 +572,32 @@ default_scratchpad = "terminal"
 default_floating_size = { width = 0.5, height = 0.45 }
 default_position = { x = 0, y = 40, anchor = "top" }
 
+# 兜底：任何窗口只要进入 scratchpad（例如 Orbit / dock 直接 spawn 的普通 kitty），
+# 打开时就套用同样的几何，避免它用应用自己的尺寸铺满整屏。
+[[window_rule]]
+match.is_scratchpad = true
+default_floating_size = { width = 0.5, height = 0.45 }
+default_position = { x = 0, y = 40, anchor = "top" }
+
 # =============================================================================
 # Layer 规则（Noctalia）
 # =============================================================================
 
-# 面板 / 坞 / 通知 / OSD：模糊实时内容
+# 面板 / 通知 / OSD：模糊实时内容
 [[layer_rule]]
-match.namespace = "^noctalia-(panel|attached-panel|notification|dock|osd)$"
+match.namespace = "^noctalia-(panel|attached-panel|notification|osd)$"
 blur = true
 blur_optimized = false
 blur_popups = true
+blur_ignore_alpha = 0.4
+
+# 停靠栏：表面铺满整宽但大部分是透明的，必须跳过透明像素，
+# 否则整条 dock 矩形会被糊成一条毛玻璃（niri 下没有 layer blur 所以不会出现）。
+[[layer_rule]]
+match.namespace = "^noctalia-dock$"
+blur = true
+blur_optimized = false
+blur_ignore_alpha = 0.4
 
 # 状态栏贴壁纸，不做模糊（niri 里也是 blur false + 不透明）
 [[layer_rule]]

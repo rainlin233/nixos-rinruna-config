@@ -240,13 +240,6 @@ index = 4
 input_path = "/home/rinneko/.config/noctalia/templates/gtk-4.0.css"
 output_path = "/home/rinneko/.config/gtk-4.0/gtk.css"
 
-# Niri glow-material-you: Noctalia is the only writer of the rendered layout.
-[theme.templates.user.nyxuri_niri_glow_material_you]
-index = 5
-input_path = "/home/rinneko/.config/noctalia/templates/niri-glow-material-you.kdl"
-output_path = "/home/rinneko/.config/niri/colors.kdl"
-post_hook = "command -v niri >/dev/null 2>&1 && niri msg action load-config-file || true"
-
 # Material You 动态色板（由 Noctalia 渲染到 ~/.cache/nyxuri/palette.toml，供周边组件直接读取）
 [theme.templates.user.palette]
 index = 6

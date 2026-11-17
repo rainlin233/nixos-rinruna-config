@@ -358,9 +358,9 @@ class OrbitLauncher(Gtk.Window):
             return
 
         # 3. Local Scratchpad / App Command
-        script_path = os.path.expanduser("~/.config/niri/scripts/niri-scratch-toggle.sh")
+        script_path = os.path.expanduser("~/.config/umbriel/scripts/scratch-toggle.sh")
         if not os.path.isfile(script_path):
-            script_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "niri-scratch-toggle.sh")
+            script_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "scratch-toggle.sh")
         try:
             subprocess.Popen(["bash", script_path, cmd])
         except Exception as e:

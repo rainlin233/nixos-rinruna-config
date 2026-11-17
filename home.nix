@@ -34,10 +34,6 @@ in
       source = dotfilesLink "${dotfiles}/.config/fcitx5";
     };
 
-    ".config/niri" = {
-      source = dotfilesLink "${dotfiles}/.config/niri";
-    };
-
     ".config/umbriel" = {
       source = dotfilesLink "${dotfiles}/.config/umbriel";
     };

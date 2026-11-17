@@ -285,21 +285,21 @@
     enable = true;
 
     extraPortals = with pkgs; [
-      xdg-desktop-portal-gnome
       xdg-desktop-portal-gtk
+      # 只为了保留 org.freedesktop.impl.portal.Secret（Flatpak 的密钥环），
+      # gnome-keyring 自带 portal 定义，不引入 gnome portal 本体。
+      gnome-keyring
     ];
 
     # umbriel 会话（XDG_CURRENT_DESKTOP=Umbriel → umbriel-portals.conf）的 portal 优先级：
     #   Screencast / Screenshot → umbriel（本机唯一实现者）
-    #   其余 → gtk，最后才回退到 gnome（保留 Flatpak USB / Background 等能力）
-    #   密钥 → gnome-keyring（与 niri 会话一致，否则 Flatpak 应用拿不到 Secret portal）
+    #   其余 → gtk；gnome portal 已移除，不再作为兜底。
     # 注意：一旦定义 xdg.portal.config.umbriel，portal 包自带的
     # share/xdg-desktop-portal/umbriel-portals.conf 就不再生效，这里等价重建它。
     config.umbriel = {
       default = [
         "umbriel"
         "gtk"
-        "gnome"
       ];
       "org.freedesktop.impl.portal.Access" = "gtk";
       "org.freedesktop.impl.portal.FileChooser" = "gtk";
@@ -317,7 +317,6 @@
     fish.enable = true;
 
     # Wayland Compositor
-    niri.enable = true;
     umbriel.enable = true;
 
     # Java
@@ -443,8 +442,7 @@
       wlsunset
       haruna
 
-      # Nyxuri: XWayland / 截图 / 剪贴板 / 亮度 / 录屏
-      xwayland-satellite
+      # Nyxuri: 截图 / 剪贴板 / 亮度 / 录屏
       grim
       slurp
       swappy
