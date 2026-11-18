@@ -286,16 +286,9 @@
 
     extraPortals = with pkgs; [
       xdg-desktop-portal-gtk
-      # 只为了保留 org.freedesktop.impl.portal.Secret（Flatpak 的密钥环），
-      # gnome-keyring 自带 portal 定义，不引入 gnome portal 本体。
       gnome-keyring
     ];
 
-    # umbriel 会话（XDG_CURRENT_DESKTOP=Umbriel → umbriel-portals.conf）的 portal 优先级：
-    #   Screencast / Screenshot → umbriel（本机唯一实现者）
-    #   其余 → gtk；gnome portal 已移除，不再作为兜底。
-    # 注意：一旦定义 xdg.portal.config.umbriel，portal 包自带的
-    # share/xdg-desktop-portal/umbriel-portals.conf 就不再生效，这里等价重建它。
     config.umbriel = {
       default = [
         "umbriel"
@@ -315,6 +308,8 @@
   programs = {
     # Shell
     fish.enable = true;
+
+    dconf.enable = true;
 
     # Wayland Compositor
     umbriel.enable = true;
@@ -410,6 +405,8 @@
 
     # System Packages
     systemPackages = with pkgs; [
+      gsettings-desktop-schemas
+
       # Basic Tools
       git
       vim
@@ -501,6 +498,10 @@
       GI_TYPELIB_PATH = "/run/current-system/sw/lib/girepository-1.0:${pkgs.pango.out}/lib/girepository-1.0:${pkgs.glib.out}/lib/girepository-1.0:${pkgs.at-spi2-core.out}/lib/girepository-1.0:${pkgs.harfbuzz.out}/lib/girepository-1.0";
 
       GSETTINGS_SCHEMA_DIR = "${pkgs.gtk3}/share/gsettings-schemas/gtk+3-${pkgs.gtk3.version}/glib-2.0/schemas";
+
+      XDG_DATA_DIRS = [
+        "${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas/${pkgs.gsettings-desktop-schemas.name}"
+      ];
 
       XMODIFIERS = "@im=fcitx";
       QT_IM_MODULES = "wayland;fcitx";

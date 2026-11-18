@@ -119,9 +119,10 @@ disable_on_external_mouse = true
 sensitivity = -0.72
 
 [input.cursor]
-# __custom__.kdl 覆盖 config.kdl 的最终值
-theme = "Plana-ANI-28px"
-size = 30
+# 单一主题内含 20/22/24/26/28/30/32/36/40/44/48/56/64 多档 nominal size，
+# wlroots 会按 size × output.scale 就近选择；30 现在是精确值。
+theme = "Plana-ANI"
+size = 32
 
 # =============================================================================
 # 显示器（来自 nwg-displays 生成的 monitor.kdl）
@@ -316,6 +317,12 @@ blur = false
 match.app_id = "^dev[.]noctalia[.]Noctalia$"
 default_floating = true
 default_floating_size_px = { width = 1020, height = 900 }
+
+# 屏幕共享选择器（OBS / 浏览器等走 xdg-desktop-portal-umbriel 时弹出）
+[[window_rule]]
+match.app_id = "^dev[.]noctalia[.]UmbrielSharePicker$"
+default_floating = true
+default_floating_size_px = { width = 800, height = 600 }
 
 # 强制定宽 50% 且不浮动
 [[window_rule]]

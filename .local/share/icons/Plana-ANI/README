@@ -1,0 +1,35 @@
+蔚蓝档案普拉娜XCURSOR动态鼠标主题
+==================
+
+
+
+安装
+----
+解压到图标目录：
+
+    ~/.local/share/icons
+
+配置示例
+
+Umbriel
+-------
+在 ~/.config/umbriel/config.toml 里写：
+
+    [input.cursor]
+    theme = "Plana-ANI"
+    size = 30
+
+保存就生效，或者手动 `umbriel msg config-reload`。
+
+niri
+----
+    cursor {
+        xcursor-theme "Plana-ANI"
+        xcursor-size 30
+    }
+
+然后 `niri msg action load-config-file`。
+
+
+
+移植自 B 站 BV1Qr4y1o7iQ
