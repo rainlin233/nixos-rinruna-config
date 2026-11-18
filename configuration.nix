@@ -448,7 +448,7 @@
       ddcutil
       cava
       gpu-screen-recorder
-      nwg-displays
+      wdisplays
       mission-center
       libnotify # toggle-eyecare.sh 的 notify-send
       dotool # gamepad-keepawake.sh 拔手柄后的鼠标唤醒（需配合上面的 uinput 组）

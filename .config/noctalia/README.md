@@ -234,25 +234,35 @@ Noctalia 文档只展示了 `blend` / `set_alpha` 接受**字面量**参数的�
 
 - `set_alpha N` → `rgba({{ colors.X.default.rgb_csv }}, N)`（`rgb_csv` 是格式访问器，
   不是过滤器）
-- `blend: colors.Y, N` → CSS `color-mix(in srgb, ...)` 双行 fallback
+- `blend: colors.Y, N` → CSS `color-mix(in srgb, ...)`（仅 GTK4 模板；GTK3 用 flat 色）
 
-### 6.3 color-mix 双行 fallback
+### 6.3 两色混合：GTK4 用 color-mix，GTK3 用 flat
 
 SCSS `color.mix($A, $B, N%)` = N% × A + (100−N)% × B，等价于 CSS
-`color-mix(in srgb, A N%, B)`。GTK4 4.10+ 原生支持 `color-mix()`，GTK3 不支持，
-用 CSS cascade 兜底：
+`color-mix(in srgb, A N%, B)`。GTK4 4.10+ 原生支持，GTK3 3.24 **不支持**。
+
+两个模板分开写，不要用双行 fallback：
 
 ```css
+/* templates/gtk-4.0.css */
 switch:hover {
-    /* GTK3 fallback (flat token) */
-    background-color: {{ colors.surface_container_highest.default.hex }};
-    /* GTK4 (color-mix，cascade 覆盖上行) */
     background-color: color-mix(in srgb, {{ colors.surface_container_highest.default.hex }} 92%, {{ colors.on_surface.default.hex }});
+}
+
+/* templates/gtk-3.0.css —— 只写 flat token */
+switch:hover {
+    background-color: {{ colors.surface_container_highest.default.hex }};
 }
 ```
 
-GTK3 跳过第二行用 flat 色，GTK4 用第二行覆盖。`@define-color` 中的 `color-mix`
-同理（GTK4 4.10+ 支持）；GTK3 `@define-color` 不支持，用近似 flat token。
+GTK3 模板里如果也写第二行 `color-mix`，它必然被丢弃（cascade 保留上一行），
+但**每个 GTK3 程序启动都会刷一条**
+`Theme parsing error: gtk.css:224:31: 'color-mix' is not a valid color name`。
+所以 GTK3 模板只留 flat 色，视觉完全一样（GTK3 本来就用 flat 那行）。
+`@define-color` 同理：GTK3 用近似 flat token，GTK4 才用 `color-mix`。
+
+改完模板后用 `noctalia msg templates-apply` 重新渲染；注意渲染是异步的，
+等一两秒再检查 `~/.config/gtk-3.0/gtk.css`。
 
 ### 6.4 @define-color 分层
 
