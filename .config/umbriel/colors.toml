@@ -5,26 +5,26 @@
 # 也通过 IPC 驱动 xdg-desktop-portal-umbriel 的共享选择器配色。
 
 [colors]
-background = "#f0edf2"
-text_primary = "#1b1b1f"
-text_muted = "#46464f"
-accent_primary = "#3a3b75"
-accent_secondary = "#5c5c75"
-warning = "#632f57"
+background = "#f2eedc"
+text_primary = "#1c1c11"
+text_muted = "#484833"
+accent_primary = "#626200"
+accent_secondary = "#61611f"
+warning = "#506600"
 error = "#ba1a1a"
-insert_hint = "#3a3b7580"
-backdrop = "#fcf8fe"
-shadow = "#3a3b7595"
+insert_hint = "#62620080"
+backdrop = "#fdfae7"
+shadow = "#62620095"
 
 [colors.border]
-focused = "#3a3b75FF"
+focused = "#626200FF"
 unfocused = "#00000000"
 outer = "#00000000"
 
 [colors.tab_bar]
-active = "#3a3b75FF"
+active = "#626200FF"
 urgent = "#ba1a1aFF"
 
 [colors.overview]
 background_tint = "#4c566a90"
-badge = "#3a3b75FF"
+badge = "#626200FF"
