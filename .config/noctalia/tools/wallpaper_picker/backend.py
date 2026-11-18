@@ -11,10 +11,21 @@ import subprocess
 
 STATE_DIR = os.path.expanduser("~/.local/state/noctalia/mpvpaper")
 ASSIGNMENTS_FILE = os.path.join(STATE_DIR, "assignments.json")
+MPVPAPER_CACHE_DIR = os.path.expanduser("~/.cache/noctalia/mpvpaper")
 
 # NixOS: nixpkgs wraps binaries (comm is ".mpvpaper-wrapp"), so pkill/pgrep -x
 # never matches. Match by argv instead; [m] bracket avoids matching ourselves.
 _MPVPAPER_PATTERN = "(^|/)[m]pvpaper( |$)"
+
+
+def _mpvpaper_running() -> bool:
+    """True when an mpvpaper instance is alive, i.e. a video wallpaper is on screen."""
+    try:
+        return subprocess.run(
+            ["pgrep", "-f", _MPVPAPER_PATTERN], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False
+        ).returncode == 0
+    except Exception:
+        return False
 
 
 def _clear_mpvpaper():
@@ -46,9 +57,43 @@ def _write_mpvpaper_assignments(assignments: dict):
         print(f"Warning: Failed to update mpvpaper assignments: {e}", file=sys.stderr)
 
 
+def _static_frame_stamp() -> int:
+    """Newest mtime (ns) among the plugin's extracted <connector>_static.jpg fallbacks."""
+    stamp = 0
+    try:
+        for name in os.listdir(MPVPAPER_CACHE_DIR):
+            if name.endswith("_static.jpg"):
+                stamp = max(stamp, os.stat(os.path.join(MPVPAPER_CACHE_DIR, name)).st_mtime_ns)
+    except OSError:
+        pass
+    return stamp
+
+
+def _wait_static_frame(stamp: int, timeout: float = 3.0) -> bool:
+    """Wait for the plugin's async clear-all frame extraction, then for its setWallpaper call."""
+    deadline = time.time() + timeout
+    while time.time() < deadline:
+        time.sleep(0.05)
+        if _static_frame_stamp() != stamp:
+            # ffmpeg just exited; the plugin calls setWallpaper in its completion callback.
+            time.sleep(0.2)
+            return True
+    return False
+
+
+def _set_wallpaper(path: str):
+    subprocess.Popen(["noctalia", "msg", "wallpaper-set", path], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+
 def apply_static_wallpaper(path: str) -> bool:
     """Apply static wallpaper, clear mpvpaper video assignments, and restore host wallpaper rendering."""
     try:
+        # clear-all makes the plugin extract the last video frame to __static.jpg and
+        # setWallpaper() it a moment later, which would undo the pick. Remember how the
+        # fallback cache looks right now, and whether a video is actually on screen.
+        had_video = _mpvpaper_running()
+        stamp = _static_frame_stamp() if had_video else 0
+
         # 1. Notify Noctalia's mpvpaper service to clear assignments and re-enable static wallpaper layer
         try:
             subprocess.run(
@@ -65,7 +110,11 @@ def apply_static_wallpaper(path: str) -> bool:
         _clear_mpvpaper()
 
         # 4. Apply through Noctalia so it can refresh the palette and wallpaper layer
-        subprocess.Popen(["noctalia", "msg", "wallpaper-set", path], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        _set_wallpaper(path)
+
+        # 5. Re-apply once the plugin's fallback frame has landed, so the pick wins.
+        if had_video and _wait_static_frame(stamp):
+            _set_wallpaper(path)
         return True
     except Exception as e:
         print(f"Error applying static wallpaper: {e}", file=sys.stderr)
