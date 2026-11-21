@@ -205,6 +205,9 @@
     # SSH
     openssh.enable = true;
 
+    # Tailscale
+    tailscale.enable = true;
+
     # Noctalia Greeter
     displayManager.noctalia-greeter = {
       enable = true;
