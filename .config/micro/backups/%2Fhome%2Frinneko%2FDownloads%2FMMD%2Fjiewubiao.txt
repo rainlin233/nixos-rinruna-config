@@ -1,0 +1,130 @@
+借物表 ：
+[模型Model]:三目YYB/ThisisKENZ
+https://www.deviantart.com/thisiskenz/art/DL-YYB-Cygne-fonce-Miku-851281305
+[舞台Stage]:幽灵_U0
+[音乐Music]:IA - INTERGALACTIA
+https://www.youtube.com/watch?v=ktENKp1tDO8
+[动作Motion]:
+  Choreography : YURI (RSC MASAMI STUDIO)
+  Motion Capture Studio : D1
+  MMD Motion : Suzuki Rin
+https://www.youtube.com/watch?v=c__x6KXGM28
+[镜头Camera]:ひな
+https://privatter.net/p/8994997
+
+
+
+[工具Tool]:
+物理:MikuMikuDance-Ver.mmdbridge
+制作:Blender(EEVEE)
+             -MMD Tools
+             -Paper Anime Render Helper
+             -MMD Motion Tools
+插帧:SVFI
+压制:FFmpeg
+
+依旧花了很多时间修穿模，希望能得到点赞awa
+借物表 ：
+[模型Model]:白银之城/神帝羽
+https://www.aplaybox.com/details/model/PShZ7zuBnxM1
+[舞台Stage]:YukikazeMaoMao
+Modelling and textures：sega
+Ripping script：minmode, Skyth, Rich Whitehouse, Chrrox
+Fx：khoast40 (MES40)
+Ripping & Stage Animation：Dan1024
+[音乐Music]:KISS OF LIFE - Who is she
+[动作Motion/镜头Camera]:
+NatsumiSan
+https://www.deviantart.com/natsumisempai/art/%5BMMD-KPop%5D-KISS-OF-LIFE---Who-is-she-%7C-Motion-DL-1340697167
+
+
+
+[工具Tool]:
+渲染协助:DeepSeek Flash V4.1
+物理:MikuMikuDance-Ver.mmdbridge
+制作:Blender(EEVEE)
+             -MMD Tools
+             -MMD Motion Tools
+             -MMD Jiggle bones
+插帧:SVFI
+压制:FFmpeg
+
+
+[库拉蒂MMD]兔子:她是谁？(┬_┬) - Who is she
+
+
+
+
+[阿芙MMD]不要独自流泪了，我会一直陪在你身边哦 - 誓见
+
+这次换了个场景，并花了很久时间修穿模，重新做了阿芙的誓见MMD
+希望能得到点赞awa
+
+借物表 ：
+[模型Model]:白银之城/神帝宇
+https://www.aplaybox.com/details/model/qGIIkvdQWN9s
+[舞台Stage]:9口6
+https://www.aplaybox.com/details/model/cq2mQR4FNnU8
+[音乐Music]:DECO*27 - モニタリング (Best Friend Remix) feat. 初音ミク
+https://www.nicovideo.jp/watch/sm45353732
+[动作Motion]:MobiusP/チャイナ
+https://www.nicovideo.jp/watch/sm45768928
+[镜头Camera]:MobiusP/鷹羽はるひ
+https://www.nicovideo.jp/watch/sm45768928
+
+[工具Tool]:
+物理:MikuMikuDance-Ver.mmdbridge
+制作:Blender(EEVEE)
+             -MMD Tools
+             -MMD Motion Tools(动作穿模修正)
+             -MikuMikuToon(眼部透视)
+插帧:SVFI
+压制:FFmpeg
+
+
+[初音MMD]怎会向罪人之姿伸出手呢- 蜘蛛糸モノポリー
+
+修复动作花了一些时间，但是这个模型的袖子过于庞大，很多穿模注定只能保留
+希望能得到点赞awa
+借物表 ：
+[模型Model]:三目YYB/Thisiskenz/Kilsoph/HatsuneDKaname/Inuhiiun/たんやおさん/いつものほんさん/Fujiwara-no-Moko
+https://www.deviantart.com/thisiskenz/art/[DL]-YYB-Lofi-City-Girl-Miku-[Miku-Birthday-2021]-890365054
+[舞台Stage]:天堂不去（Ttbq_Sora）/YukikazeMaoMao
+[音乐Music]:sasakure.UK/初音ミク - 蜘蛛糸モノポリー
+https://www.nicovideo.jp/watch/1366014863
+[动作Motion/镜头Camera]:Namida
+https://bowlroll.net/file/146041
+
+[工具Tool]:
+物理:MikuMikuDance-Ver.mmdbridge
+制作:Blender(EEVEE)
+             -MMD Tools
+             -MMD Motion Tools(动作穿模修正)
+             -MikuMikuToon(眼部透视)
+插帧:SVFI
+压制:FFmpeg
+
+
+[莉莉MMD]✨请一直注视着我✨ -  Watch me!
+
+借物表 ：
+[模型Model]:鸣潮
+https://www.aplaybox.com/details/model/AyFZrY0gZMvd
+[模型渲染预设ModelRenderPreset]:盐汽水的猫咪
+https://www.aplaybox.com/details/model/bAkPYNMbBygY
+[舞台Stage]:天堂不去（Ttbq_Sora）/YukikazeMaoMao
+[音乐Music]:YOASOBI - Watch me!
+https://www.youtube.com/watch?v=evtoG-4dLM4
+[振付Choreographer]:すぅねこ
+https://www.youtube.com/watch?v=wchKjz_o7qk
+[动作Motion/镜头Camera]:こざくらみる/ノン
+https://bowlroll.net/file/339488
+
+[工具Tool]:
+物理:MikuMikuDance-Ver.mmdbridge
+制作:Blender(EEVEE)
+             -MMD Tools
+             -MMD Motion Tools(动作穿模修正)
+             -MikuMikuToon(眼部透视)
+插帧:SVFI
+压制:FFmpeg
