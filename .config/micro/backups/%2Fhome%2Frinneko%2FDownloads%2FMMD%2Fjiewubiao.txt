@@ -110,7 +110,7 @@ https://bowlroll.net/file/146041
 借物表 ：
 [模型Model]:鸣潮
 https://www.aplaybox.com/details/model/AyFZrY0gZMvd
-[模型渲染预设ModelRenderPreset]:盐汽水的猫咪
+[模型渲染ModelRender]:盐汽水的猫咪
 https://www.aplaybox.com/details/model/bAkPYNMbBygY
 [舞台Stage]:天堂不去（Ttbq_Sora）/YukikazeMaoMao
 [音乐Music]:YOASOBI - Watch me!
