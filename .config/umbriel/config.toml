@@ -119,13 +119,11 @@ disable_on_external_mouse = true
 sensitivity = -0.72
 
 [input.cursor]
-# 单一主题内含 20/22/24/26/28/30/32/36/40/44/48/56/64 多档 nominal size，
-# wlroots 会按 size × output.scale 就近选择；30 现在是精确值。
 theme = "Plana-ANI"
 size = 32
 
 # =============================================================================
-# 显示器（来自 nwg-displays 生成的 monitor.kdl）
+# 显示器
 # =============================================================================
 
 [output.DP-2]
