@@ -338,6 +338,12 @@
     # KDE Connect
     kdeconnect.enable = true;
 
+    # AppImage
+    appimage = {
+      enable = true;
+      binfmt = true;
+    };
+
     # Gaming
     steam.enable = true;
 
