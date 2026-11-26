@@ -6,6 +6,7 @@
     ./hardware-configuration.nix
   ];
 
+
   # ============================================================
   # Nixpkgs / Overlay
   # ============================================================
@@ -533,6 +534,18 @@
   # ============================================================
   # File Systems
   # ============================================================
+
+  fileSystems."/mnt/Coresystem" = {
+    device = "/dev/disk/by-uuid/B7B6BC00543B02D0";
+    fsType = "ntfs";
+    options = [ "rw" "uid=1000" "gid=100" "nofail" "x-gvfs-show" ];
+  };
+
+  fileSystems."/mnt/Entertainment" = {
+    device = "/dev/disk/by-uuid/1C16AEA716AE80FE";
+    fsType = "ntfs";
+    options = [ "rw" "uid=1000" "gid=100" "nofail" "x-gvfs-show" ];
+  };
 
 
   # ============================================================
