@@ -26,36 +26,6 @@
           ++ [ final.zstd ];
       });
   
-      # 修复 Clash Verge Rev 的 AWS-LC 编译问题
-      clash-verge-rev =
-        let
-          oldUnwrapped = prev.clash-verge-rev.passthru.unwrapped;
-
-          # nixpkgs 的 cargo-setup-hook 会 export AWS_LC_SYS_USE_SYSTEM=1，
-          # 但系统里没有 AWS-LC，导致构建脚本 panic；在 buildPhase 前 unset。
-          fixedUnwrapped = oldUnwrapped.overrideAttrs (old: {
-            preBuild = (old.preBuild or "") + ''
-              unset AWS_LC_SYS_USE_SYSTEM
-            '';
-          });
-        in
-        prev.clash-verge-rev.overrideAttrs (old: {
-          # replaceStrings 会保留旧 unwrapped 的 string context，
-          # 导致 wrapper 仍然依赖那个构建失败的 derivation。
-          # 这里把旧 context 去掉，只保留 service/mihomo 等其余依赖的 context。
-          installPhase = builtins.appendContext
-            (builtins.replaceStrings
-              [ (builtins.unsafeDiscardStringContext oldUnwrapped.outPath) ]
-              [ fixedUnwrapped.outPath ]
-              (builtins.unsafeDiscardStringContext old.installPhase))
-            (builtins.removeAttrs
-              (builtins.getContext old.installPhase)
-              [ (builtins.unsafeDiscardStringContext oldUnwrapped.drvPath) ]);
-
-          passthru = (old.passthru or { }) // {
-            unwrapped = fixedUnwrapped;
-          };
-        });
 
       # 修复 Warehouse 启动时找不到 pygobject
       # （ModuleNotFoundError: No module named 'gi'）
@@ -223,6 +193,9 @@
     udisks2.enable = true;
     gvfs.enable = true;
 
+    # Secret Service（iloader / 其他应用的 keyring）
+    gnome.gnome-keyring.enable = true;
+
     # Audio
     pipewire = {
       enable = true;
@@ -248,6 +221,9 @@
 
       ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="e2b7", ATTR{idProduct}=="122c", RUN+="${pkgs.kmod}/bin/modprobe xpad", RUN+="${pkgs.runtimeShell} -c 'echo 0xe2b7 0x122c > /sys/bus/usb/drivers/xpad/new_id'"
     '';
+
+    # iOS 设备 / iloader
+    usbmuxd.enable = true;
   };
 
   # ============================================================
@@ -496,6 +472,8 @@
       warehouse
       blender
       obs-studio
+      iloader
+      libimobiledevice # idevice_id 等调试工具
 
       # Games
       protonplus

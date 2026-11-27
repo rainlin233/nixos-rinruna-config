@@ -4,4 +4,4 @@ Name=Clash Verge
 Terminal=false
 NoDisplay=true
 MimeType=x-scheme-handler/clash
-Exec="/nix/store/nj64jnckv9zhwn0727mhrxqhr5ami4pn-clash-verge-rev-2.5.2/bin/.clash-verge-wrapped" %u
+Exec="/nix/store/2534bx9g3drybibv4w38g5s8pnqi0asq-clash-verge-rev-2.5.2/bin/.clash-verge-wrapped" %u
